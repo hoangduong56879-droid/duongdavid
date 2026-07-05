@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HD AI Store &#8212; S&#7843;n Ph&#7849;m S&#7889; AI Ch&#237;nh H&#227;ng</title>
+  <meta name="description" content="APP t&#7841;o &#7843;nh &amp; video HD SUPER VIP 68, kho&#225; h&#7885;c xây d&#7921;ng doanh nghi&#7879;p, s&#225;ch &#273;i&#7879;n t&#7917; AI v&#224; t&#224;i kho&#7843;n AI ch&#237;nh h&#227;ng." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #07070f;
+      --bg-1:     #0e0e1c;
+      --bg-card:  #10101f;
+      --border:   rgba(255,255,255,0.07);
+      --purple:   #8b5cf6; --purple-l: #a78bfa;
+      --blue:     #3b82f6; --blue-l:   #60a5fa;
+      --gold:     #f59e0b; --gold-l:   #fbbf24;
+      --green:    #10b981; --green-l:  #34d399;
+      --pink:     #ec4899; --pink-l:   #f472b6;
+      --cyan:     #06b6d4;
+      --orange-l: #fb923c;
+      --text:     #f0eff8;
+      --muted:    #7e7ea8;
+      --dim:      #555575;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+    /* ── TOPBAR ── */
+    #topbar {
+      background: linear-gradient(90deg,#3b0764,#1e1b4b,#0c0a1e,#1e1b4b,#3b0764);
+      background-size: 300% 100%; animation: ts 9s linear infinite;
+      color: #ddd6ff; font-size: 13px; font-weight: 500;
+      padding: 10px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+    }
+    @keyframes ts { 0%,100%{background-position:0%} 50%{background-position:100%} }
+    .dot-g { width:8px; height:8px; background:var(--gold); border-radius:50%; animation:pl 1.6s ease-in-out infinite; flex-shrink:0; }
+    @keyframes pl { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+    .cd { display:flex; align-items:center; gap:4px; font-size:12px; font-weight:700; }
+    .cdb { background:rgba(255,255,255,.12); border-radius:5px; padding:2px 7px; font-variant-numeric:tabular-nums; }
+
+    /* ── NAV ── */
+    nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(7,7,15,.93); backdrop-filter:blur(24px);
+      border-bottom:1px solid var(--border);
+      padding:0 28px; height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo {
+      font-family:'Space Grotesk',sans-serif; font-size:19px; font-weight:800; text-decoration:none;
+      background:linear-gradient(135deg,var(--purple-l),var(--blue-l),var(--gold-l));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .nav-cta {
+      background:linear-gradient(135deg,var(--purple),var(--blue)); color:#fff;
+      border:none; padding:10px 22px; border-radius:10px; font-size:13px; font-weight:700;
+      cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      transition:all .25s; box-shadow:0 4px 18px rgba(139,92,246,.35);
+    }
+    .nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(139,92,246,.5); }
+
+    /* ── HERO ── */
+    #hero { position:relative; padding:80px 24px 60px; text-align:center; overflow:hidden; }
+    .hbg {
+      position:absolute; inset:0; z-index:0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 0%,rgba(139,92,246,.17) 0%,transparent 70%),
+        radial-gradient(ellipse 40% 35% at 10% 70%,rgba(236,72,153,.07) 0%,transparent 60%),
+        radial-gradient(ellipse 40% 35% at 90% 70%,rgba(245,158,11,.06) 0%,transparent 60%);
+    }
+    .hgrid {
+      position:absolute; inset:0; z-index:0;
+      background-image:linear-gradient(rgba(139,92,246,.04) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(139,92,246,.04) 1px,transparent 1px);
+      background-size:44px 44px;
+      mask-image:radial-gradient(ellipse at 50% 0%,black,transparent 68%);
+    }
+    .hinner { position:relative; z-index:1; max-width:660px; margin:0 auto; }
+    .hbadge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(139,92,246,.1); border:1px solid rgba(139,92,246,.22);
+      border-radius:100px; padding:6px 18px; font-size:11.5px; font-weight:700;
+      color:var(--purple-l); text-transform:uppercase; letter-spacing:.09em; margin-bottom:24px;
+    }
+    .bdot { width:7px; height:7px; background:var(--green); border-radius:50%; }
+    .htitle {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(32px,5.5vw,60px); font-weight:800;
+      line-height:1.1; letter-spacing:-.035em; margin-bottom:20px;
+    }
+    .grad {
+      background:linear-gradient(130deg,var(--purple-l) 0%,var(--blue-l) 45%,var(--gold-l) 90%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .hdesc { font-size:16px; color:var(--muted); line-height:1.75; max-width:500px; margin:0 auto 36px; }
+    .hstats { display:flex; justify-content:center; gap:44px; flex-wrap:wrap; }
+    .hstat .v {
+      font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:800;
+      background:linear-gradient(135deg,var(--purple-l),var(--blue-l));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .hstat .l { font-size:12px; color:var(--muted); margin-top:3px; }
+
+    /* ── TICKER ── */
+    #ticker { overflow:hidden; background:rgba(139,92,246,.055); border-top:1px solid rgba(139,92,246,.14); border-bottom:1px solid rgba(139,92,246,.14); padding:11px 0; white-space:nowrap; }
+    .ttrack { display:inline-flex; animation:tick 30s linear infinite; }
+    @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ti { font-size:13px; font-weight:500; color:var(--muted); padding:0 30px; display:inline-flex; align-items:center; gap:9px; }
+    .ti .s { color:var(--purple); }
+
+    /* ── MAIN GRID ── */
+    main { padding:56px 24px 100px; max-width:1200px; margin:0 auto; }
+    .grid-head { text-align:center; margin-bottom:48px; }
+    .grid-eyebrow { display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--purple-l); margin-bottom:10px; }
+    .grid-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,3.5vw,34px); font-weight:800; letter-spacing:-.025em; }
+
+    .products { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+
+    /* ── PRODUCT CARD ── */
+    .pcard {
+      background:var(--bg-card); border:1px solid var(--border); border-radius:22px;
+      overflow:hidden; display:flex; flex-direction:column;
+      transition:all .32s cubic-bezier(.34,1.56,.64,1); position:relative;
+      cursor:pointer;
+    }
+    .pcard:hover {
+      transform:translateY(-7px);
+      border-color:rgba(139,92,246,.3);
+      box-shadow:0 28px 72px rgba(0,0,0,.55), 0 0 44px rgba(139,92,246,.1);
+    }
+
+    /* Badge */
+    .pbadge {
+      position:absolute; top:14px; right:14px; z-index:2;
+      font-size:10px; font-weight:800; padding:4px 11px; border-radius:100px;
+      text-transform:uppercase; letter-spacing:.06em;
+    }
+    .b-hot  { background:linear-gradient(135deg,#ef4444,#f59e0b); color:#fff; }
+    .b-trend{ background:linear-gradient(135deg,#8b5cf6,#3b82f6); color:#fff; }
+    .b-best { background:linear-gradient(135deg,#10b981,#06b6d4); color:#fff; }
+    .b-vip  { background:linear-gradient(135deg,#f59e0b,#ef4444); color:#fff; }
+
+    /* Thumb */
+    .pthumb { height:180px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; }
+    .ptbg   { position:absolute; inset:0; }
+    .picon  { font-size:72px; position:relative; z-index:1; filter:drop-shadow(0 6px 18px rgba(0,0,0,.4)); animation:fi 3.5s ease-in-out infinite; }
+    @keyframes fi { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+
+    /* Thumb gradients */
+    .g-pink  { background:radial-gradient(ellipse at 50% 0%,rgba(236,72,153,.45) 0%,rgba(190,24,93,.12) 55%,transparent 100%),linear-gradient(135deg,#220828 0%,#0e0e1a 100%); }
+    .g-blue  { background:radial-gradient(ellipse at 50% 0%,rgba(59,130,246,.45) 0%,rgba(29,78,216,.12) 55%,transparent 100%),linear-gradient(135deg,#091330 0%,#0e0e1a 100%); }
+    .g-green { background:radial-gradient(ellipse at 50% 0%,rgba(16,185,129,.45) 0%,rgba(5,150,105,.12) 55%,transparent 100%),linear-gradient(135deg,#0c2618 0%,#0e0e1a 100%); }
+    .g-gold  { background:radial-gradient(ellipse at 50% 0%,rgba(245,158,11,.45) 0%,rgba(180,83,9,.12) 55%,transparent 100%),linear-gradient(135deg,#221808 0%,#0e0e1a 100%); }
+
+    /* Card body */
+    .pbody { padding:24px 24px 26px; display:flex; flex-direction:column; flex:1; }
+    .pcat {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.09em;
+      padding:3px 11px; border-radius:100px; margin-bottom:11px; width:fit-content;
+    }
+    .c-pink  { background:rgba(236,72,153,.14); color:var(--pink-l); }
+    .c-blue  { background:rgba(59,130,246,.14);  color:var(--blue-l); }
+    .c-green { background:rgba(16,185,129,.14);  color:var(--green-l); }
+    .c-gold  { background:rgba(245,158,11,.14);  color:var(--gold-l); }
+
+    .pname { font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:800; line-height:1.3; letter-spacing:-.02em; margin-bottom:9px; }
+    .pmeta { display:flex; align-items:center; gap:9px; margin-bottom:11px; flex-wrap:wrap; }
+    .pmeta .r { font-size:12px; color:var(--gold-l); font-weight:600; }
+    .pmeta .u { font-size:12px; color:var(--dim); }
+    .pdesc { font-size:13.5px; color:var(--muted); line-height:1.7; margin-bottom:16px; flex:1; }
+
+    .pfeats { list-style:none; display:flex; flex-direction:column; gap:7px; margin-bottom:20px; }
+    .pfeats li { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); }
+    .ck { font-size:12px; font-weight:700; flex-shrink:0; }
+    .ck-pink  { color:var(--pink-l); }
+    .ck-blue  { color:var(--blue-l); }
+    .ck-green { color:var(--green-l); }
+    .ck-gold  { color:var(--gold-l); }
+
+    .pfoot { margin-top:auto; border-top:1px solid var(--border); padding-top:18px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+    .pprice-wrap { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+    .pp { font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:800; }
+    .po { font-size:13px; color:var(--dim); text-decoration:line-through; }
+    .ps { font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px; background:rgba(16,185,129,.12); color:var(--green-l); }
+    .psub { font-size:11px; color:var(--dim); margin-top:3px; }
+
+    .pbtn {
+      padding:12px 24px; border-radius:12px; border:none;
+      font-size:14px; font-weight:800; font-family:'Inter',sans-serif;
+      cursor:pointer; text-decoration:none;
+      display:inline-flex; align-items:center; gap:7px;
+      transition:all .28s; white-space:nowrap; flex-shrink:0;
+    }
+    .btn-pink  { background:linear-gradient(135deg,var(--pink),#9d174d);  color:#fff; box-shadow:0 4px 18px rgba(236,72,153,.35); }
+    .btn-pink:hover  { box-shadow:0 7px 28px rgba(236,72,153,.55); transform:translateY(-2px); }
+    .btn-blue  { background:linear-gradient(135deg,var(--blue),#1d4ed8);  color:#fff; box-shadow:0 4px 18px rgba(59,130,246,.35); }
+    .btn-blue:hover  { box-shadow:0 7px 28px rgba(59,130,246,.55); transform:translateY(-2px); }
+    .btn-green { background:linear-gradient(135deg,var(--green),#059669); color:#fff; box-shadow:0 4px 18px rgba(16,185,129,.35); }
+    .btn-green:hover { box-shadow:0 7px 28px rgba(16,185,129,.55); transform:translateY(-2px); }
+    .btn-gold  { background:linear-gradient(135deg,var(--gold),#d97706);  color:#0a0a0f; box-shadow:0 4px 18px rgba(245,158,11,.35); }
+    .btn-gold:hover  { box-shadow:0 7px 28px rgba(245,158,11,.55); transform:translateY(-2px); }
+
+    /* ── TRUST ── */
+    #trust { background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 24px; }
+    .tinner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-around; flex-wrap:wrap; gap:20px; }
+    .titem { display:flex; align-items:center; gap:12px; }
+    .tico { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+    .tico.p{background:rgba(139,92,246,.14);} .tico.b{background:rgba(59,130,246,.14);}
+    .tico.g{background:rgba(16,185,129,.14);} .tico.o{background:rgba(245,158,11,.14);}
+    .tv { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; }
+    .tl { font-size:12px; color:var(--muted); margin-top:1px; }
+
+    /* ── ZALO FLOAT ── */
+    #zfloat { position:fixed; bottom:24px; right:24px; z-index:200; display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .zfbtn { width:54px; height:54px; border-radius:16px; background:linear-gradient(135deg,#0068ff,#00b4ff); display:flex; align-items:center; justify-content:center; font-size:26px; box-shadow:0 8px 32px rgba(0,104,255,.45); text-decoration:none; animation:zb 3s ease-in-out infinite; }
+    @keyframes zb { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+    .zfbtn:hover { box-shadow:0 12px 44px rgba(0,104,255,.65); animation:none; transform:translateY(-3px) scale(1.06); }
+    .zflbl { font-size:10px; font-weight:700; color:#fff; background:rgba(0,104,255,.85); padding:3px 10px; border-radius:100px; }
+
+    /* ── FOOTER ── */
+    footer { background:var(--bg-1); border-top:1px solid var(--border); padding:44px 24px 28px; text-align:center; }
+    .flogo { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:800; background:linear-gradient(135deg,var(--purple-l),var(--blue-l),var(--gold-l)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:7px; }
+    .ftag  { font-size:13px; color:var(--dim); margin-bottom:20px; }
+    .flinks { display:flex; justify-content:center; gap:22px; margin-bottom:14px; flex-wrap:wrap; }
+    .flinks a { font-size:13px; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .flinks a:hover { color:var(--purple-l); }
+    .fcopy { font-size:12px; color:var(--dim); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:820px) {
+      .products { grid-template-columns:1fr; }
+      .pthumb   { height:155px; }
+      .picon    { font-size:58px; }
+      .hstats   { gap:24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="dot-g"></div>
+  <span>&#127873; Flash Sale &#8212; Gi&#7843;m t&#7899;i <strong>62%</strong> cho t&#7845;t c&#7843; s&#7843;n ph&#7849;m AI h&#244;m nay!</span>
+  <div class="cd">
+    &#9201;
+    <span class="cdb" id="cdh">05</span>
+    <span>:</span>
+    <span class="cdb" id="cdm">59</span>
+    <span>:</span>
+    <span class="cdb" id="cds">00</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">&#9889; HD AI Store</a>
+  <a href="https://zalo.me/0979812338" target="_blank" class="nav-cta">&#128172; T&#432; v&#7845;n Zalo</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg"></div>
+  <div class="hgrid"></div>
+  <div class="hinner">
+    <div class="hbadge"><span class="bdot"></span> 4 s&#7843;n ph&#7849;m ch&#237;nh h&#227;ng 2026</div>
+    <h1 class="htitle">
+      Kho S&#7843;n Ph&#7849;m S&#7889;<br>
+      <span class="grad">V&#7873; Tr&#237; Tu&#7879; Nh&#226;n T&#7841;o</span>
+    </h1>
+    <p class="hdesc">
+      APP t&#7841;o &#7843;nh &amp; video, kho&#225; h&#7885;c kinh doanh, s&#225;ch &#273;i&#7879;n t&#7917;
+      v&#224; t&#224;i kho&#7843;n AI cao c&#7845;p &#8212; t&#7845;t c&#7843; trong m&#7897;t trang.
+    </p>
+    <div class="hstats">
+      <div class="hstat"><div class="v">3.800+</div><div class="l">Kh&#225;ch h&#224;ng</div></div>
+      <div class="hstat"><div class="v">4.9&#9733;</div><div class="l">&#272;&#225;nh gi&#225;</div></div>
+      <div class="hstat"><div class="v">15 ph&#250;t</div><div class="l">Giao h&#224;ng</div></div>
+      <div class="hstat"><div class="v">30 ng&#224;y</div><div class="l">B&#7843;o h&#224;nh</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div id="ticker">
+  <div class="ttrack">
+    <span class="ti"><span class="s">&#9733;</span> APP HD SUPER VIP 68 &#8212; T&#7841;o &#7843;nh &amp; video AI chuy&#234;n nghi&#7879;p</span>
+    <span class="ti"><span class="s">&#9733;</span> Kho&#225; h&#7885;c xây d&#7921;ng doanh nghi&#7879;p m&#7897;t ng&#432;&#7901;i v&#7899;i AI</span>
+    <span class="ti"><span class="s">&#9733;</span> S&#225;ch &#273;i&#7879;n t&#7917; AI &#8212; T&#7843;i ngay, d&#249;ng ngay</span>
+    <span class="ti"><span class="s">&#9733;</span> T&#224;i kho&#7843;n ChatGPT Plus, Claude Pro, Gemini, Midjourney</span>
+    <span class="ti"><span class="s">&#9733;</span> Giao trong 15 ph&#250;t qua Zalo &#8212; B&#7843;o h&#224;nh 30 ng&#224;y</span>
+    <span class="ti"><span class="s">&#9733;</span> APP HD SUPER VIP 68 &#8212; T&#7841;o &#7843;nh &amp; video AI chuy&#234;n nghi&#7879;p</span>
+    <span class="ti"><span class="s">&#9733;</span> Kho&#225; h&#7885;c xây d&#7921;ng doanh nghi&#7879;p m&#7897;t ng&#432;&#7901;i v&#7899;i AI</span>
+    <span class="ti"><span class="s">&#9733;</span> S&#225;ch &#273;i&#7879;n t&#7917; AI &#8212; T&#7843;i ngay, d&#249;ng ngay</span>
+    <span class="ti"><span class="s">&#9733;</span> T&#224;i kho&#7843;n ChatGPT Plus, Claude Pro, Gemini, Midjourney</span>
+    <span class="ti"><span class="s">&#9733;</span> Giao trong 15 ph&#250;t qua Zalo &#8212; B&#7843;o h&#224;nh 30 ng&#224;y</span>
+  </div>
+</div>
+
+<!-- MAIN: 4 CARDS GRID -->
+<main>
+  <div class="grid-head reveal">
+    <div class="grid-eyebrow">&#9889; 4 s&#7843;n ph&#7849;m n&#7893;i b&#7853;t</div>
+    <h2 class="grid-title">Ch&#7885;n s&#7843;n ph&#7849;m ph&#249; h&#7907;p v&#7899;i b&#7841;n</h2>
+  </div>
+
+  <div class="products">
+
+    <!-- 1. APP TẠO ẢNH & VIDEO HD SUPER VIP 68 -->
+    <div class="pcard reveal">
+      <span class="pbadge b-hot">&#128293; S&#7889; 1 VN</span>
+      <div class="pthumb">
+        <div class="ptbg g-pink"></div>
+        <div class="picon">&#127912;</div>
+      </div>
+      <div class="pbody">
+        <span class="pcat c-pink">&#127917; APP AI</span>
+        <div class="pname">APP T&#7841;o &#7842;nh &amp; Video<br>HD SUPER VIP 68</div>
+        <div class="pmeta">
+          <span class="r">&#11088; 4.9 &nbsp;(1.200+)</span>
+          <span class="u">&#183; Truy c&#7853;p ngay</span>
+        </div>
+        <p class="pdesc">T&#7841;o h&#236;nh &#7843;nh &amp; video AI chuy&#234;n nghi&#7879;p ch&#7881; trong v&#224;i gi&#226;y. Kh&#244;ng c&#7847;n k&#7929; n&#259;ng &#8212; AI l&#224;m t&#7845;t c&#7843; cho b&#7841;n.</p>
+        <ul class="pfeats">
+          <li><span class="ck ck-pink">&#10003;</span> T&#7841;o &#7843;nh AI &#273;&#7881;nh cao &#8212; m&#7885;i phong c&#225;ch trong v&#224;i gi&#226;y</li>
+          <li><span class="ck ck-pink">&#10003;</span> T&#7841;o video viral t&#7921; &#273;&#7897;ng, kh&#244;ng c&#7847;n quay hay edit</li>
+          <li><span class="ck ck-pink">&#10003;</span> Clone gi&#7885;ng n&#243;i AI ti&#7871;ng Vi&#7879;t siêu th&#7853;t</li>
+        </ul>
+        <div class="pfoot">
+          <a href="app-vip/" class="pbtn btn-pink">&#127912; Mua Ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. KHOÁ HỌC XÂY DỰNG DOANH NGHIỆP MỘT NGƯỜI -->
+    <div class="pcard reveal">
+      <span class="pbadge b-trend">&#128640; HOT</span>
+      <div class="pthumb">
+        <div class="ptbg g-blue"></div>
+        <div class="picon">&#127970;</div>
+      </div>
+      <div class="pbody">
+        <span class="pcat c-blue">&#127891; Kho&#225; h&#7885;c</span>
+        <div class="pname">Kho&#225; H&#7885;c Xây D&#7921;ng<br>Doanh Nghi&#7879;p M&#7897;t Ng&#432;&#7901;i</div>
+        <div class="pmeta">
+          <span class="r">&#11088; 4.9 &nbsp;(850+)</span>
+          <span class="u">&#183; Video replay kh&#244;ng gi&#7899;i h&#7841;n</span>
+        </div>
+        <p class="pdesc">H&#7885;c c&#225;ch xây d&#7921;ng h&#7879; th&#7889;ng kinh doanh m&#7897;t ng&#432;&#7901;i ch&#7841;y t&#7921; &#273;&#7897;ng 24/7 v&#7899;i AI &#8212; t&#7915; $0 kh&#244;ng c&#7847;n kinh nghi&#7879;m.</p>
+        <ul class="pfeats">
+          <li><span class="ck ck-blue">&#10003;</span> H&#7879; th&#7889;ng b&#225;n h&#224;ng t&#7921; &#273;&#7897;ng kh&#244;ng c&#7847;n nh&#226;n vi&#234;n</li>
+          <li><span class="ck ck-blue">&#10003;</span> Marketing AI: content, qu&#7843;ng c&#225;o, email t&#7921; &#273;&#7897;ng</li>
+          <li><span class="ck ck-blue">&#10003;</span> Mentoring tr&#7921;c ti&#7871;p + c&#7897;ng &#273;&#7891;ng 30 ng&#224;y</li>
+        </ul>
+        <div class="pfoot">
+          <a href="khoa-hoc/" class="pbtn btn-blue">&#128640; Mua Ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SÁCH ĐIỆN TỬ -->
+    <div class="pcard reveal">
+      <span class="pbadge b-best">&#128218; BEST</span>
+      <div class="pthumb">
+        <div class="ptbg g-green"></div>
+        <div class="picon">&#128214;</div>
+      </div>
+      <div class="pbody">
+        <span class="pcat c-green">&#128218; S&#225;ch &#273;i&#7879;n t&#7917;</span>
+        <div class="pname">Kho S&#225;ch &#272;i&#7879;n T&#7917; AI<br>Ch&#7885;n L&#7885;c 2026</div>
+        <div class="pmeta">
+          <span class="r">&#11088; 5.0 &nbsp;(2.100+)</span>
+          <span class="u">&#183; PDF t&#7843;i ngay</span>
+        </div>
+        <p class="pdesc">100 Prompt ChatGPT &#273;&#7881;nh cao, b&#237; quy&#7871;t ki&#7871;m ti&#7873;n AI v&#224; script b&#225;n h&#224;ng. T&#7843;i ngay sau thanh to&#225;n, kh&#244;ng c&#7847;n ch&#7901;.</p>
+        <ul class="pfeats">
+          <li><span class="ck ck-green">&#10003;</span> 100+ Prompt ChatGPT cho content &amp; kinh doanh</li>
+          <li><span class="ck ck-green">&#10003;</span> 47 m&#244; h&#236;nh ki&#7871;m ti&#7873;n v&#7899;i AI &#8212; th&#7921;c chi&#7871;n 100%</li>
+          <li><span class="ck ck-green">&#10003;</span> PDF &#273;&#7865;p &#8212; t&#7843;i ngay, d&#249;ng ngay</li>
+        </ul>
+        <div class="pfoot">
+          <a href="sach/" class="pbtn btn-green">&#128229; Mua Ngay</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. TÀI KHOẢN AI -->
+    <div class="pcard reveal">
+      <span class="pbadge b-vip">&#9889; VIP</span>
+      <div class="pthumb">
+        <div class="ptbg g-gold"></div>
+        <div class="picon">&#127760;</div>
+      </div>
+      <div class="pbody">
+        <span class="pcat c-gold">&#129302; T&#224;i kho&#7843;n AI</span>
+        <div class="pname">T&#224;i Kho&#7843;n AI<br>Ch&#237;nh H&#227;ng Galaxy MMO</div>
+        <div class="pmeta">
+          <span class="r">&#11088; 5.0 &nbsp;(2.800+)</span>
+          <span class="u">&#183; B&#7843;o h&#224;nh &#273;&#7871;n h&#7871;t h&#7841;n</span>
+        </div>
+        <p class="pdesc">ChatGPT Plus, Claude Pro, Gemini Advanced, Midjourney Pro ch&#237;nh h&#227;ng &#8212; gi&#225; r&#7867; h&#417;n 62%, giao trong 15 ph&#250;t.</p>
+        <ul class="pfeats">
+          <li><span class="ck ck-gold">&#10003;</span> ChatGPT Plus &#8212; GPT&#8209;4o + DALL&#183;E 3 kh&#244;ng gi&#7899;i h&#7841;n</li>
+          <li><span class="ck ck-gold">&#10003;</span> Claude Pro, Gemini Advanced, Midjourney Pro</li>
+          <li><span class="ck ck-gold">&#10003;</span> Giao trong 15 ph&#250;t &#8212; b&#7843;o h&#224;nh &#273;&#7871;n h&#7871;t h&#7841;n</li>
+        </ul>
+        <div class="pfoot">
+          <a href="tai-khoan-ai/" class="pbtn btn-gold">&#9889; Mua Ngay</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /products -->
+</main>
+
+<!-- TRUST BAR -->
+<div id="trust">
+  <div class="tinner">
+    <div class="titem reveal"><div class="tico p">&#128274;</div><div><div class="tv">Thanh to&#225;n an to&#224;n</div><div class="tl">MB Bank &#183; B&#7843;o m&#7853;t 100%</div></div></div>
+    <div class="titem reveal"><div class="tico b">&#9889;</div><div><div class="tv">Giao trong 15 ph&#250;t</div><div class="tl">Nh&#7853;n link/t&#224;i kho&#7843;n qua Zalo</div></div></div>
+    <div class="titem reveal"><div class="tico g">&#128737;&#65039;</div><div><div class="tv">B&#7843;o h&#224;nh 30 ng&#224;y</div><div class="tl">L&#7895;i l&#224; &#273;&#7893;i m&#7899;i ngay</div></div></div>
+    <div class="titem reveal"><div class="tico o">&#128172;</div><div><div class="tv">H&#7895; tr&#7907; 8:00&#8211;22:00</div><div class="tl">Zalo: 0979812338</div></div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">&#9889; HD AI Store</div>
+  <div class="ftag">Kho s&#7843;n ph&#7849;m s&#7889; AI uy t&#237;n h&#224;ng &#273;&#7847;u Vi&#7879;t Nam</div>
+  <div class="flinks">
+    <a href="index.html">Trang ch&#7911;</a>
+    <a href="#">Ch&#237;nh s&#225;ch b&#7843;o m&#7853;t</a>
+    <a href="#">&#272;i&#7873;u kho&#7843;n</a>
+    <a href="https://zalo.me/0979812338" target="_blank">Li&#234;n h&#7879;</a>
+  </div>
+  <div class="fcopy">&#169; 2026 HD AI Store &#183; Ho&#224;ng D&#432;&#417;ng &#183; Zalo: 0979812338</div>
+</footer>
+
+<!-- ZALO FLOAT -->
+<div id="zfloat">
+  <a href="https://zalo.me/0979812338" target="_blank" class="zfbtn" title="Chat Zalo">&#128172;</a>
+  <div class="zflbl">Zalo t&#432; v&#7845;n</div>
+</div>
+
+<script>
+/* COUNTDOWN */
+(function(){
+  var t = 5*3600 + 59*60;
+  var h = document.getElementById('cdh'),
+      m = document.getElementById('cdm'),
+      s = document.getElementById('cds');
+  setInterval(function(){
+    if(t <= 0){ t = 6*3600; return; } t--;
+    h.textContent = String(Math.floor(t/3600)).padStart(2,'0');
+    m.textContent = String(Math.floor((t%3600)/60)).padStart(2,'0');
+    s.textContent = String(t%60).padStart(2,'0');
+  }, 1000);
+})();
+
+/* SCROLL REVEAL */
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+</script>
+</body>
+</html>
