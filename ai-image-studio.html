@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Image Studio – Tạo Ảnh Bằng AI</title>
+  <meta name="description" content="Tạo ảnh AI từ văn bản hoặc ảnh tham chiếu. Miễn phí, không giới hạn." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:   #050610; --card: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.10);
+      --b-h:  rgba(255,255,255,0.25); --a1: #8B5CF6; --a2: #EC4899; --a3: #06B6D4;
+      --hi:   #F8FAFC; --mid: #94A3B8; --lo: #475569;
+      --r-sm: 10px; --r-md: 16px; --r-lg: 24px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--hi); min-height:100vh; overflow-x:hidden; }
+
+    /* orbs */
+    .bg-orbs { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:.18; animation:drift 12s ease-in-out infinite alternate; }
+    .orb-1 { width:520px;height:520px;background:#8B5CF6;top:-100px;left:-150px;animation-duration:14s; }
+    .orb-2 { width:400px;height:400px;background:#EC4899;bottom:-80px;right:-120px;animation-duration:10s;animation-delay:-5s; }
+    .orb-3 { width:300px;height:300px;background:#06B6D4;top:40%;left:55%;animation-duration:16s;animation-delay:-8s; }
+    @keyframes drift { from{transform:translate(0,0) scale(1);}to{transform:translate(40px,30px) scale(1.08);} }
+
+    /* layout */
+    .app { position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 20px 80px; }
+    header { text-align:center;padding:60px 20px 50px; }
+    .badge {
+      display:inline-flex;align-items:center;gap:8px;
+      background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(236,72,153,.2));
+      border:1px solid rgba(139,92,246,.4);border-radius:50px;
+      padding:6px 18px;font-size:13px;font-weight:600;color:#C084FC;
+      margin-bottom:24px;animation:fs .6s ease both;
+    }
+    .dot { width:8px;height:8px;border-radius:50%;background:#A855F7;animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.5);}50%{box-shadow:0 0 0 6px rgba(168,85,247,0);}}
+    h1 {
+      font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,6vw,4.2rem);
+      font-weight:800;line-height:1.1;
+      background:linear-gradient(135deg,#F8FAFC 0%,#C084FC 50%,#F472B6 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      margin-bottom:16px;animation:fs .7s ease .1s both;
+    }
+    .sub { color:var(--mid);font-size:1.1rem;max-width:560px;margin:0 auto;line-height:1.7;animation:fs .7s ease .2s both; }
+    @keyframes fs{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+    /* stats */
+    .stats-row { display:flex;gap:16px;margin-bottom:32px;flex-wrap:wrap; }
+    .stat { flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:20px;animation:fs .5s ease both; }
+    .stat .v { font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;background:linear-gradient(135deg,#8B5CF6,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block; }
+    .stat .l { font-size:13px;color:var(--mid);margin-top:4px; }
+
+    /* main card */
+    .card { background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);backdrop-filter:blur(20px);padding:36px;margin-bottom:28px;animation:fs .7s ease .3s both;box-shadow:0 0 40px rgba(139,92,246,.25); }
+
+    /* tabs */
+    .tab-bar { display:flex;gap:4px;margin-bottom:28px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:5px; }
+    .tab-btn { flex:1;padding:12px 20px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s;color:var(--mid);background:transparent; }
+    .tab-btn.active { background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;box-shadow:0 4px 20px rgba(139,92,246,.4); }
+    .tab-btn:not(.active):hover { background:rgba(255,255,255,.06);color:var(--hi); }
+    @media(max-width:600px){ .tab-btn{font-size:12px;padding:10px 8px;} }
+
+    /* panels */
+    .panel { display:none; }
+    .panel.active { display:block;animation:fs .35s ease both; }
+
+    /* label */
+    .lbl { font-size:13px;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px; }
+
+    /* textarea */
+    textarea {
+      width:100%;background:rgba(255,255,255,.03);border:1.5px solid var(--border);
+      border-radius:var(--r-md);color:var(--hi);font-family:'Inter',sans-serif;
+      font-size:16px;line-height:1.7;padding:18px 20px;resize:vertical;min-height:110px;
+      transition:border-color .3s,box-shadow .3s;outline:none;
+    }
+    textarea::placeholder { color:var(--lo); }
+    textarea:focus { border-color:var(--a1);box-shadow:0 0 0 3px rgba(139,92,246,.2); }
+
+    /* quick prompts */
+    .qps { margin-top:12px;display:flex;flex-wrap:wrap;gap:8px; }
+    .qp { background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:50px;color:var(--mid);font-size:12px;font-weight:500;padding:6px 14px;cursor:pointer;transition:all .2s; }
+    .qp:hover { background:rgba(139,92,246,.15);border-color:var(--a1);color:#C084FC;transform:translateY(-1px); }
+
+    /* settings grid */
+    .s-row { display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px; }
+    .s-row-2 { display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px; }
+    @media(max-width:680px){ .s-row,.s-row-2{ grid-template-columns:1fr; } }
+    .sg label { display:block;font-size:12px;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px; }
+    select { width:100%;background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--hi);font-family:'Inter',sans-serif;font-size:14px;padding:10px 14px;outline:none;transition:border-color .2s;cursor:pointer;appearance:none; }
+    select:focus,select:hover { border-color:var(--a1); }
+    select option { background:#1a1a2e;color:var(--hi); }
+    .rw { display:flex;align-items:center;gap:12px; }
+    input[type=range] { flex:1;accent-color:var(--a1);background:transparent;border:none;padding:0;cursor:pointer; }
+    .rv { font-size:14px;font-weight:700;color:#C084FC;min-width:36px;text-align:right; }
+
+    /* i2i layout */
+    .i2i-grid { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+    @media(max-width:700px){ .i2i-grid{grid-template-columns:1fr;} }
+
+    /* upload zone */
+    .upload-zone {
+      position:relative;border:2px dashed var(--border);border-radius:var(--r-md);
+      min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:10px;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.02);overflow:hidden;
+    }
+    .upload-zone:hover,.upload-zone.dragover { border-color:var(--a1);background:rgba(139,92,246,.07);box-shadow:0 0 0 3px rgba(139,92,246,.15); }
+    .upload-zone .uz-icon { font-size:42px;line-height:1; }
+    .upload-zone .uz-title { font-size:15px;font-weight:700;color:var(--hi); }
+    .upload-zone .uz-sub  { font-size:12px;color:var(--lo); }
+    .upload-zone input[type=file] { position:absolute;inset:0;opacity:0;cursor:pointer; }
+
+    /* ref preview */
+    .ref-preview { position:relative;border-radius:var(--r-md);overflow:hidden;min-height:240px;display:none; }
+    .ref-preview img { width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--r-md); }
+    .ref-ov { position:absolute;inset:0;background:rgba(5,6,16,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0;transition:opacity .3s;border-radius:var(--r-md); }
+    .ref-preview:hover .ref-ov { opacity:1; }
+    .ref-clear { background:rgba(239,68,68,.8);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;padding:8px 20px;cursor:pointer;transition:background .2s; }
+    .ref-clear:hover { background:rgba(239,68,68,1); }
+    .ref-tag { background:rgba(139,92,246,.8);border-radius:6px;color:#fff;font-size:12px;font-weight:600;padding:4px 12px; }
+
+    /* url input */
+    .url-wrap { position:relative; }
+    .url-input { width:100%;background:rgba(255,255,255,.03);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--hi);font-family:'Inter',sans-serif;font-size:14px;padding:12px 16px 12px 44px;outline:none;transition:border-color .3s; }
+    .url-input:focus { border-color:var(--a1);box-shadow:0 0 0 3px rgba(139,92,246,.2); }
+    .url-input::placeholder { color:var(--lo); }
+    .url-icon { position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none; }
+    .url-prev-wrap { display:none; }
+    .url-prev-img { width:100%;max-height:140px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--border);margin-top:10px; }
+
+    /* upload status */
+    .up-status { display:none;align-items:center;gap:8px;margin-top:10px;padding:10px 14px;border-radius:var(--r-sm);font-size:13px;font-weight:500; }
+    .up-status.uploading { display:flex;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);color:#67E8F9; }
+    .up-status.ready    { display:flex;background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.3); color:#86EFAC; }
+    .up-status.fail     { display:flex;background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3); color:#FCA5A5; }
+
+    /* strength */
+    .strength-labels { display:flex;justify-content:space-between;font-size:11px;color:var(--lo);margin-top:4px; }
+
+    /* generate btn */
+    .btn-gen {
+      margin-top:28px;width:100%;padding:18px 32px;
+      font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;
+      border:none;border-radius:var(--r-md);cursor:pointer;position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;
+      transition:transform .2s,box-shadow .2s;box-shadow:0 8px 32px rgba(139,92,246,.45);
+    }
+    .btn-gen::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,#A78BFA,#F472B6);opacity:0;transition:opacity .3s; }
+    .btn-gen:hover:not(:disabled) { transform:translateY(-2px);box-shadow:0 12px 40px rgba(139,92,246,.6); }
+    .btn-gen:hover:not(:disabled)::before { opacity:1; }
+    .btn-gen:disabled { opacity:.6;cursor:not-allowed; }
+    .btn-gen span { position:relative;z-index:1; }
+
+    /* status / error */
+    .status-bar { display:none;align-items:center;gap:12px;margin-top:20px;padding:14px 20px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);border-radius:var(--r-md);color:#C084FC;font-size:14px;font-weight:500; }
+    .status-bar.show { display:flex; }
+    .spinner { width:18px;height:18px;border:2px solid rgba(139,92,246,.3);border-top-color:#8B5CF6;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0; }
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .err-toast { display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:var(--r-md);padding:14px 20px;color:#FCA5A5;font-size:14px;margin-top:16px; }
+    .err-toast.show { display:block;animation:fs .3s ease; }
+
+    /* progress bar */
+    .prog { display:none;margin-top:16px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:var(--r-md);padding:16px 20px; }
+    .prog.show { display:block; }
+    .prog-lbl { font-size:13px;color:#C084FC;font-weight:600;margin-bottom:10px; }
+    .prog-track { height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden; }
+    .prog-fill  { height:100%;border-radius:3px;background:linear-gradient(90deg,#8B5CF6,#EC4899);width:0%;transition:width .5s ease; }
+    .prog-meta  { font-size:12px;color:var(--lo);margin-top:8px; }
+
+    /* results */
+    .results { animation:fs .5s ease both; }
+    .res-hdr { display:flex;align-items:center;justify-content:space-between;margin-bottom:20px; }
+    .res-title { font-size:18px;font-weight:700; }
+    .res-count { font-size:13px;color:var(--mid);background:rgba(255,255,255,.06);padding:4px 12px;border-radius:50px; }
+    .grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px; }
+
+    /* image card */
+    .img-card { background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer;animation:fs .5s ease both; }
+    .img-card:hover { transform:translateY(-6px);border-color:var(--b-h);box-shadow:0 20px 50px rgba(0,0,0,.4); }
+    .img-wrap { position:relative;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(236,72,153,.1)); }
+    .img-wrap img { width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s; }
+    .img-card:hover .img-wrap img { transform:scale(1.04); }
+    .img-ov { position:absolute;inset:0;background:linear-gradient(to top,rgba(5,6,16,.9) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:16px;gap:8px; }
+    .img-card:hover .img-ov { opacity:1; }
+    .ov-btn { flex:1;padding:8px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:transform .15s,background .2s;font-family:'Inter',sans-serif; }
+    .ov-btn:hover { transform:scale(1.05); }
+    .btn-dl  { background:rgba(255,255,255,.15);color:#fff; }
+    .btn-dl:hover { background:rgba(255,255,255,.25); }
+    .btn-vw  { background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff; }
+    .img-meta { padding:14px 16px; }
+    .img-meta-p { font-size:13px;color:var(--mid);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+    .img-meta-s { margin-top:6px;font-size:11px;color:var(--lo);font-weight:500;text-transform:uppercase;letter-spacing:.5px; }
+    .img-badge  { display:inline-block;margin-top:6px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(236,72,153,.3));color:#C084FC;border:1px solid rgba(139,92,246,.3); }
+
+    /* skeleton */
+    .skel { background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden; }
+    .skel-img { aspect-ratio:1;background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite; }
+    .skel-txt { padding:14px 16px; }
+    .skel-ln  { height:10px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;margin-bottom:8px; }
+    .skel-ln:last-child { width:60%;margin-bottom:0; }
+    @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+    /* lightbox */
+    .lb { display:none;position:fixed;inset:0;z-index:1000;background:rgba(5,6,16,.95);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px; }
+    .lb.open { display:flex;animation:fadeIn .3s ease; }
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .lb-inner { max-width:90vw;max-height:90vh;position:relative;display:flex;flex-direction:column;align-items:center;gap:16px; }
+    .lb-inner img { max-width:100%;max-height:75vh;border-radius:var(--r-md);box-shadow:0 30px 80px rgba(0,0,0,.6); }
+    .lb-close { position:absolute;top:-50px;right:-8px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:50%;width:40px;height:40px;color:var(--hi);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s; }
+    .lb-close:hover { background:rgba(255,255,255,.2); }
+    .lb-dl { background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:var(--r-sm);color:#fff;font-weight:700;padding:12px 28px;font-size:14px;cursor:pointer;transition:opacity .2s,transform .2s;font-family:'Space Grotesk',sans-serif; }
+    .lb-dl:hover { opacity:.9;transform:scale(1.02); }
+
+    /* empty */
+    .empty { text-align:center;padding:60px 20px;animation:fs .5s ease both; }
+    .empty-icon { font-size:64px;margin-bottom:16px; }
+    .empty h3 { font-size:20px;font-weight:700;margin-bottom:8px; }
+    .empty p  { color:var(--mid);font-size:15px; }
+
+    /* i2i right column */
+    .i2i-r { display:flex;flex-direction:column;gap:16px; }
+    .or-div { display:flex;align-items:center;gap:10px;font-size:12px;color:var(--lo);font-weight:600; }
+    .or-div::before,.or-div::after { content:'';flex:1;height:1px;background:var(--border); }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+</div>
+
+<div class="app">
+  <header>
+    <div class="badge"><div class="dot"></div> Powered by AI · Miễn phí 100%</div>
+    <h1>AI Image Studio ✦</h1>
+    <p class="sub">Biến ý tưởng thành hình ảnh tuyệt đẹp — từ văn bản hoặc từ ảnh tham chiếu của bạn.</p>
+  </header>
+
+  <div class="stats-row">
+    <div class="stat" style="animation-delay:.1s"><span class="v" id="s-gen">0</span><div class="l">📸 Ảnh đã tạo</div></div>
+    <div class="stat" style="animation-delay:.2s"><span class="v" id="s-ses">0</span><div class="l">⚡ Phiên làm việc</div></div>
+    <div class="stat" style="animation-delay:.3s"><span class="v">∞</span><div class="l">🎨 Phong cách</div></div>
+    <div class="stat" style="animation-delay:.4s"><span class="v">FREE</span><div class="l">💸 Chi phí</div></div>
+  </div>
+
+  <div class="card">
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-t2i" onclick="switchTab('t2i')">✍️ Từ văn bản</button>
+      <button class="tab-btn"        id="tab-i2i" onclick="switchTab('i2i')">🖼️ Từ ảnh tham chiếu</button>
+    </div>
+
+    <!-- ===== PANEL 1: TEXT-TO-IMAGE ===== -->
+    <div class="panel active" id="panel-t2i">
+      <div class="lbl">✍️ Mô tả hình ảnh của bạn</div>
+      <textarea id="prompt" rows="4" placeholder="Ví dụ: Một con rồng lửa bay qua bầu trời tím lúc hoàng hôn, phong cách fantasy, cực kỳ chi tiết..."></textarea>
+
+      <div class="qps">
+        <button class="qp" data-p="A majestic phoenix rising from golden flames, ultra-detailed fantasy art">🔥 Phượng Hoàng</button>
+        <button class="qp" data-p="Cyberpunk city at night, neon lights, rain reflections, cinematic, 8K">🌆 Cyberpunk</button>
+        <button class="qp" data-p="A beautiful anime girl with white hair under cherry blossoms, soft lighting">🌸 Anime</button>
+        <button class="qp" data-p="Astronaut surfing on a giant wave in space, surrealist digital art">🚀 Vũ trụ</button>
+        <button class="qp" data-p="Ancient dragon sleeping on a mountain of gold, hyper realistic">🐉 Rồng cổ đại</button>
+        <button class="qp" data-p="Enchanted forest with glowing mushrooms and fairy lights, mystical">🍄 Rừng thần</button>
+        <button class="qp" data-p="Portrait of a samurai warrior in cherry blossom rain, oil painting">⚔️ Samurai</button>
+        <button class="qp" data-p="Underwater crystal palace with mermaids and glowing corals, ethereal">🏰 Lâu đài ngầm</button>
+      </div>
+
+      <div class="s-row">
+        <div class="sg">
+          <label>🎨 Phong cách</label>
+          <select id="t2i-style">
+            <option value="">Tự động</option>
+            <option value=", photorealistic, 8K ultra-detailed">Siêu thực</option>
+            <option value=", anime style, vibrant colors">Anime / Manga</option>
+            <option value=", oil painting style, classical art">Tranh sơn dầu</option>
+            <option value=", watercolor painting, soft brush strokes">Màu nước</option>
+            <option value=", digital art, concept art, ArtStation">Digital Art</option>
+            <option value=", pencil sketch, black and white">Phác thảo chì</option>
+            <option value=", cinematic, dramatic lighting">Điện ảnh</option>
+            <option value=", pixel art, retro game style">Pixel Art</option>
+          </select>
+        </div>
+        <div class="sg">
+          <label>📐 Tỉ lệ</label>
+          <select id="t2i-aspect">
+            <option value="1024x1024">Vuông (1:1)</option>
+            <option value="1280x720">Ngang 16:9</option>
+            <option value="768x1280">Dọc 9:16</option>
+            <option value="1024x768">Ngang 4:3</option>
+            <option value="512x512">Nhỏ 512px</option>
+          </select>
+        </div>
+        <div class="sg">
+          <label>🖼️ Số lượng</label>
+          <div class="rw">
+            <input type="range" id="t2i-count" min="1" max="4" value="1" oninput="document.getElementById('t2i-cv').textContent=this.value" />
+            <span class="rv" id="t2i-cv">1</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-gen" id="btn-t2i" onclick="doT2I()"><span>✨ Tạo ảnh ngay</span></button>
+    </div>
+
+    <!-- ===== PANEL 2: IMAGE-TO-IMAGE ===== -->
+    <div class="panel" id="panel-i2i">
+      <div class="i2i-grid">
+        <!-- LEFT: upload -->
+        <div>
+          <div class="lbl">📎 Ảnh tham chiếu</div>
+          <div class="upload-zone" id="upload-zone">
+            <span class="uz-icon">🖼️</span>
+            <span class="uz-title">Kéo thả hoặc nhấn chọn ảnh</span>
+            <span class="uz-sub">PNG, JPG, WEBP · Tối đa 20MB</span>
+            <input type="file" id="file-input" accept="image/*" />
+          </div>
+          <div class="ref-preview" id="ref-preview">
+            <img id="ref-img" src="" alt="Reference" />
+            <div class="ref-ov">
+              <div class="ref-tag">✅ Ảnh tham chiếu</div>
+              <button class="ref-clear" onclick="clearRef()">🗑️ Xóa ảnh</button>
+            </div>
+          </div>
+          <div class="up-status" id="up-status"><div class="spinner" id="up-spin" style="display:none"></div><span id="up-text"></span></div>
+        </div>
+
+        <!-- RIGHT: URL + settings -->
+        <div class="i2i-r">
+          <div class="or-div">Hoặc dán URL ảnh</div>
+          <div>
+            <div class="lbl">🔗 URL ảnh tham chiếu</div>
+            <div class="url-wrap">
+              <span class="url-icon">🌐</span>
+              <input type="text" class="url-input" id="url-input" placeholder="https://example.com/image.jpg" oninput="onUrlInput()" />
+            </div>
+            <div class="url-prev-wrap" id="url-prev-wrap">
+              <img class="url-prev-img" id="url-prev-img" src="" alt="preview" />
+            </div>
+          </div>
+
+          <div>
+            <div class="lbl">🎛️ Mức sáng tạo</div>
+            <div class="rw">
+              <input type="range" id="strength" min="10" max="95" value="60" oninput="document.getElementById('strength-v').textContent=this.value+'%'" />
+              <span class="rv" id="strength-v">60%</span>
+            </div>
+            <div class="strength-labels"><span>📎 Giữ nguyên</span><span>🎨 Tự do sáng tạo</span></div>
+            <div style="font-size:12px;color:var(--lo);margin-top:6px;">Cao = AI sáng tạo nhiều hơn · Thấp = bám sát ảnh gốc</div>
+          </div>
+
+          <div>
+            <div class="lbl" style="margin-bottom:6px">📐 Kích thước đầu ra</div>
+            <select id="i2i-aspect">
+              <option value="1024x1024">Vuông (1:1)</option>
+              <option value="1280x720">Ngang 16:9</option>
+              <option value="768x1280">Dọc 9:16</option>
+              <option value="1024x768">Ngang 4:3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- prompt + settings -->
+      <div style="margin-top:20px">
+        <div class="lbl">✍️ Hướng dẫn AI (tùy chọn)</div>
+        <textarea id="i2i-prompt" rows="3" placeholder="Ví dụ: Chuyển sang anime, thêm ánh sáng hoàng hôn, màu sắc rực rỡ hơn..."></textarea>
+      </div>
+
+      <div class="s-row-2">
+        <div class="sg">
+          <label>🎨 Phong cách</label>
+          <select id="i2i-style">
+            <option value="">Tự động</option>
+            <option value=", photorealistic, 8K">Siêu thực</option>
+            <option value=", anime style, vibrant colors">Anime / Manga</option>
+            <option value=", oil painting style">Tranh sơn dầu</option>
+            <option value=", watercolor painting">Màu nước</option>
+            <option value=", digital art, ArtStation">Digital Art</option>
+            <option value=", cinematic, dramatic lighting">Điện ảnh</option>
+          </select>
+        </div>
+        <div class="sg">
+          <label>🖼️ Số lượng</label>
+          <div class="rw">
+            <input type="range" id="i2i-count" min="1" max="4" value="1" oninput="document.getElementById('i2i-cv').textContent=this.value" />
+            <span class="rv" id="i2i-cv">1</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-gen" id="btn-i2i" onclick="doI2I()"><span>🖼️ Tạo ảnh từ tham chiếu</span></button>
+
+      <div class="prog" id="prog">
+        <div class="prog-lbl">⏳ Đang xử lý...</div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+        <div class="prog-meta" id="prog-meta">Vui lòng chờ...</div>
+      </div>
+    </div>
+
+    <!-- shared -->
+    <div class="status-bar" id="status-bar"><div class="spinner"></div><span id="status-txt">Đang tạo ảnh...</span></div>
+    <div class="err-toast" id="err-toast"></div>
+  </div>
+
+  <div class="results" id="results" style="display:none">
+    <div class="res-hdr"><div class="res-title">🖼️ Kết quả</div><div class="res-count" id="res-count">0 ảnh</div></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="empty" id="empty">
+    <div class="empty-icon">🎨</div>
+    <h3>Sẵn sàng sáng tạo!</h3>
+    <p>Chọn chế độ bên trên và nhấn <strong>Tạo ảnh</strong> để bắt đầu.</p>
+  </div>
+</div>
+
+<div class="lb" id="lb" onclick="if(event.target===this)closeLb()">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLb()">✕</button>
+    <img id="lb-img" src="" alt="" />
+    <button class="lb-dl" onclick="dlLb()">⬇️ Tải ảnh về</button>
+  </div>
+</div>
+
+<script>
+/* ─── STATE ─── */
+let genCount = parseInt(localStorage.getItem('ai_gen')||'0');
+let sesCount = parseInt(localStorage.getItem('ai_ses')||'0');
+let lbUrl    = '';
+let allImgs  = [];
+let refFile  = null;   // uploaded File object
+let refUrl   = '';     // URL mode
+
+document.getElementById('s-gen').textContent = genCount;
+document.getElementById('s-ses').textContent = sesCount;
+
+/* ─── TABS ─── */
+function switchTab(t) {
+  ['t2i','i2i'].forEach(id => {
+    document.getElementById('tab-'+id).classList.toggle('active', id===t);
+    document.getElementById('panel-'+id).classList.toggle('active', id===t);
+  });
+  hideErr();
+}
+
+/* ─── QUICK PROMPTS ─── */
+document.querySelectorAll('.qp').forEach(b => {
+  b.addEventListener('click', () => { document.getElementById('prompt').value = b.dataset.p; document.getElementById('prompt').focus(); });
+});
+document.getElementById('prompt').addEventListener('keydown', e => { if(e.ctrlKey && e.key==='Enter') doT2I(); });
+
+/* ─── URL INPUT ─── */
+function onUrlInput() {
+  const url = document.getElementById('url-input').value.trim();
+  const wrap = document.getElementById('url-prev-wrap');
+  const img  = document.getElementById('url-prev-img');
+  if(url.startsWith('http')) {
+    img.src = url;
+    img.onload  = () => { wrap.style.display='block'; refUrl=url; clearUpload(); };
+    img.onerror = () => { wrap.style.display='none'; };
+  } else {
+    wrap.style.display='none';
+    if(!refFile) refUrl='';
+  }
+}
+
+/* ─── FILE UPLOAD ─── */
+const fileInput  = document.getElementById('file-input');
+const uploadZone = document.getElementById('upload-zone');
+
+fileInput.addEventListener('change', () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); });
+uploadZone.addEventListener('dragover',  e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('dragover');
+  const f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')) handleFile(f);
+  else showErr('Vui lòng thả file ảnh (PNG/JPG/WEBP)!');
+});
+
+function handleFile(f) {
+  if(f.size > 20*1024*1024) { showErr('Ảnh quá lớn! Vui lòng chọn ảnh dưới 20MB.'); return; }
+  refFile = f; refUrl = '';
+  // preview
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('ref-img').src = ev.target.result;
+    uploadZone.style.display = 'none';
+    document.getElementById('ref-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(f);
+  // clear URL
+  document.getElementById('url-input').value = '';
+  document.getElementById('url-prev-wrap').style.display = 'none';
+  setUpStatus('','');
+}
+
+function clearRef() {
+  refFile = null; refUrl = '';
+  document.getElementById('ref-preview').style.display = 'none';
+  uploadZone.style.display = 'flex';
+  fileInput.value = '';
+  setUpStatus('','');
+}
+function clearUpload() {
+  refFile = null;
+  document.getElementById('ref-preview').style.display = 'none';
+  uploadZone.style.display = 'flex';
+  fileInput.value = '';
+}
+
+function setUpStatus(type, msg) {
+  const el  = document.getElementById('up-status');
+  const sp  = document.getElementById('up-spin');
+  el.className = 'up-status' + (type ? ' '+type : '');
+  document.getElementById('up-text').textContent = msg;
+  sp.style.display = type==='uploading' ? 'block' : 'none';
+}
+
+/* ─── COMPRESS → BLOB ─── */
+function compressBlob(file, maxPx, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const bu  = URL.createObjectURL(file);
+    img.onload = () => {
+      const r = Math.min(maxPx/img.width, maxPx/img.height, 1);
+      const c = document.createElement('canvas');
+      c.width  = Math.round(img.width*r);
+      c.height = Math.round(img.height*r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(bu);
+      c.toBlob(b => b ? resolve(b) : reject(new Error('toBlob')), 'image/jpeg', quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(bu); reject(new Error('load')); };
+    img.src = bu;
+  });
+}
+
+/* ─── UPLOAD → PUBLIC URL ─── */
+async function uploadForUrl(file) {
+  const blob  = await compressBlob(file, 768, 0.82);
+  const fname = 'ai-ref-' + Date.now() + '.jpg';
+
+  // Try 1: transfer.sh
+  try {
+    setUpStatus('uploading', '⏳ Uploading... (1/2)');
+    const r = await fetch('https://transfer.sh/'+fname, {
+      method:'PUT', body:blob,
+      headers:{'Max-Days':'1','Content-Type':'image/jpeg'}
+    });
+    if(r.ok) {
+      const url = (await r.text()).trim();
+      if(url.startsWith('https://')) { setUpStatus('ready','✅ Đã upload!'); return url; }
+    }
+  } catch(e){ console.log('transfer.sh:', e); }
+
+  // Try 2: tmpfiles.org
+  try {
+    setUpStatus('uploading', '⏳ Thử dịch vụ khác... (2/2)');
+    const form = new FormData();
+    form.append('file', blob, fname);
+    const r    = await fetch('https://tmpfiles.org/api/v1/upload', {method:'POST', body:form});
+    const data = await r.json();
+    if(data.data && data.data.url) {
+      const url = data.data.url.replace('tmpfiles.org/','tmpfiles.org/dl/');
+      setUpStatus('ready','✅ Đã upload!');
+      return url;
+    }
+  } catch(e){ console.log('tmpfiles.org:', e); }
+
+  setUpStatus('fail','⚠️ Upload thất bại. Dùng URL ảnh thay thế!');
+  return null;
+}
+
+/* ─── TEXT-TO-IMAGE ─── */
+async function doT2I() {
+  const prompt = document.getElementById('prompt').value.trim();
+  if(!prompt) { showErr('Vui lòng nhập mô tả hình ảnh!'); document.getElementById('prompt').focus(); return; }
+
+  const style  = document.getElementById('t2i-style').value;
+  const aspect = document.getElementById('t2i-aspect').value;
+  const count  = parseInt(document.getElementById('t2i-count').value);
+  const [w,h]  = aspect.split('x').map(Number);
+  const full   = prompt + style + ', high quality, masterpiece';
+
+  hideErr();
+  setBtnLoading('btn-t2i', true, '⏳ Đang tạo...');
+  setStatus(true, count, 'Đang tạo ảnh...');
+  prepResults(); showSkels(count);
+
+  const enc = encodeURIComponent(full);
+  const ps  = Array.from({length:count}, (_,i) => {
+    const seed = Math.floor(Math.random()*999999)+i*1000;
+    return loadImg('https://image.pollinations.ai/prompt/'+enc+'?width='+w+'&height='+h+'&seed='+seed+'&nologo=true', i);
+  });
+
+  await finish(ps, prompt+style, w, h, 'btn-t2i', false);
+}
+
+/* ─── IMAGE-TO-IMAGE ─── */
+async function doI2I() {
+  const urlInput   = document.getElementById('url-input').value.trim();
+  const userPrompt = document.getElementById('i2i-prompt').value.trim();
+  const style      = document.getElementById('i2i-style').value;
+  const aspect     = document.getElementById('i2i-aspect').value;
+  const count      = parseInt(document.getElementById('i2i-count').value);
+  const strength   = parseInt(document.getElementById('strength').value);
+  const [w,h]      = aspect.split('x').map(Number);
+
+  hideErr();
+
+  // Resolve image URL
+  let imgUrl = refUrl;
+
+  if(!imgUrl && refFile) {
+    setBtnLoading('btn-i2i', true, '⏳ Đang upload ảnh...');
+    imgUrl = await uploadForUrl(refFile);
+    if(!imgUrl) { setBtnLoading('btn-i2i',false,''); return; }
+  }
+
+  if(!imgUrl && urlInput) imgUrl = urlInput;
+
+  if(!imgUrl) {
+    showErr('Vui lòng chọn ảnh tham chiếu hoặc dán URL ảnh!');
+    return;
+  }
+
+  const basePrompt = (userPrompt || 'masterpiece, high quality, detailed artwork') + style;
+
+  prepResults();
+  showProg(true);
+  setBtnLoading('btn-i2i', true, '⏳ Đang tạo...');
+  setStatus(true, count, 'Đang tạo ảnh từ tham chiếu...');
+  showSkels(count);
+
+  const enc    = encodeURIComponent(basePrompt);
+  const encImg = encodeURIComponent(imgUrl);
+  const str    = (strength/100).toFixed(2);
+
+  const ps = Array.from({length:count}, (_,i) => {
+    const seed = Math.floor(Math.random()*999999)+i*1000;
+    const url  = 'https://image.pollinations.ai/prompt/'+enc
+      +'?image='+encImg+'&width='+w+'&height='+h
+      +'&seed='+seed+'&strength='+str+'&nologo=true';
+    return loadImg(url, i);
+  });
+
+  await finish(ps, basePrompt, w, h, 'btn-i2i', true);
+  showProg(false);
+}
+
+/* ─── LOAD IMAGE PROMISE ─── */
+function loadImg(url, idx) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload  = () => resolve({url, idx});
+    img.onerror = () => reject(new Error('Không tải được ảnh'));
+    img.src = url;
+    setTimeout(() => reject(new Error('Timeout sau 90s')), 90000);
+  });
+}
+
+/* ─── SKELETONS ─── */
+function showSkels(n) {
+  const g = document.getElementById('grid');
+  for(let i=0;i<n;i++){
+    const c = document.createElement('div');
+    c.className='skel'; c.id='sk-'+i;
+    c.innerHTML='<div class="skel-img"></div><div class="skel-txt"><div class="skel-ln"></div><div class="skel-ln"></div></div>';
+    g.prepend(c);
+  }
+}
+function skelReplace(idx, url, p, w, h, i2i) {
+  const s = document.getElementById('sk-'+idx);
+  if(!s) return;
+  s.replaceWith(makeCard(url, p, w, h, i2i));
+}
+function skelRemove(idx) {
+  const s = document.getElementById('sk-'+idx);
+  if(s) s.remove();
+}
+
+/* ─── IMAGE CARD ─── */
+function makeCard(url, p, w, h, i2i) {
+  const c = document.createElement('div');
+  c.className = 'img-card';
+  const short = p.length>80 ? p.slice(0,80)+'...' : p;
+  const safe  = url.replace(/'/g,'');
+  c.innerHTML =
+    '<div class="img-wrap"><img src="'+safe+'" alt="AI" loading="lazy" /><div class="img-ov">'
+    +'<button class="ov-btn btn-dl">⬇️ Tải về</button>'
+    +'<button class="ov-btn btn-vw">🔍 Xem to</button></div></div>'
+    +'<div class="img-meta">'
+    +(i2i?'<span class="img-badge">🖼️ Từ tham chiếu</span>':'')
+    +'<div class="img-meta-p">'+esc(short)+'</div>'
+    +'<div class="img-meta-s">'+w+'×'+h+'px</div></div>';
+  c.querySelector('.btn-dl').addEventListener('click', e=>{e.stopPropagation();dlImg(url,'ai-'+Date.now()+'.jpg');});
+  c.querySelector('.btn-vw').addEventListener('click', e=>{e.stopPropagation();openLb(url);});
+  return c;
+}
+
+/* ─── FINISH GENERATION ─── */
+async function finish(promises, label, w, h, btnId, i2i) {
+  const settled = await Promise.allSettled(promises);
+  let ok = 0;
+  settled.forEach((r,i) => {
+    if(r.status==='fulfilled') {
+      skelReplace(i, r.value.url, label, w, h, i2i);
+      allImgs.unshift({url:r.value.url});
+      ok++;
+    } else {
+      skelRemove(i);
+      console.error('Image failed:', r.reason);
+    }
+  });
+
+  document.getElementById('res-count').textContent = allImgs.length+' ảnh';
+  if(ok===0) {
+    showErr('Không tạo được ảnh. Thử lại hoặc đổi mô tả!');
+    if(allImgs.length===0){ document.getElementById('results').style.display='none'; document.getElementById('empty').style.display='block'; }
+  } else {
+    genCount+=ok; sesCount+=1;
+    localStorage.setItem('ai_gen',genCount);
+    localStorage.setItem('ai_ses',sesCount);
+    document.getElementById('s-gen').textContent=genCount;
+    document.getElementById('s-ses').textContent=sesCount;
+  }
+  setBtnLoading(btnId, false, '');
+  setStatus(false);
+}
+
+function prepResults() {
+  document.getElementById('empty').style.display='none';
+  document.getElementById('results').style.display='block';
+}
+
+/* ─── LIGHTBOX ─── */
+function openLb(url) { lbUrl=url; document.getElementById('lb-img').src=url; document.getElementById('lb').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeLb()   { document.getElementById('lb').classList.remove('open'); document.body.style.overflow=''; }
+function dlLb()      { dlImg(lbUrl,'ai-image-'+Date.now()+'.jpg'); }
+
+async function dlImg(url, name) {
+  try {
+    const r = await fetch(url);
+    const b = await r.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download=name; a.click();
+    URL.revokeObjectURL(a.href);
+  } catch { window.open(url,'_blank'); }
+}
+
+/* ─── UI HELPERS ─── */
+function setBtnLoading(id, on, msg) {
+  const b = document.getElementById(id);
+  if(!b) return;
+  b.disabled = on;
+  if(on) { b.innerHTML='<span>'+msg+'</span>'; }
+  else {
+    const labels = {'btn-t2i':'<span>✨ Tạo ảnh ngay</span>','btn-i2i':'<span>🖼️ Tạo ảnh từ tham chiếu</span>'};
+    b.innerHTML = labels[id] || '<span>✨ Tạo ảnh ngay</span>';
+  }
+}
+function setStatus(on, count, msg) {
+  const bar = document.getElementById('status-bar');
+  bar.classList.toggle('show', on);
+  if(on) document.getElementById('status-txt').textContent = count>1 ? 'Đang tạo '+count+' ảnh... Vui lòng chờ!' : msg;
+}
+function showProg(on) {
+  document.getElementById('prog').classList.toggle('show', on);
+  if(!on) { document.getElementById('prog-fill').style.width='0%'; document.getElementById('prog-meta').textContent=''; }
+}
+function showErr(m) { const e=document.getElementById('err-toast'); e.textContent='❌ '+m; e.classList.add('show'); }
+function hideErr()  { document.getElementById('err-toast').classList.remove('show'); }
+function esc(s)     { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLb(); });
+</script>
+</body>
+</html>

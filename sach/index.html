@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sách Mật Mã Tự Do — Bí Quyết Kiếm Tiền Với AI</title>
+  <meta name="description" content="Sách Mật Mã Tự Do — Khám phá bí mật kiếm tiền với AI, 100+ prompt ChatGPT và 47 mô hình kinh doanh thực chiến. Tải ngay PDF!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07070f; --bg-1: #0e0e1c; --bg-card: #10101f;
+      --border: rgba(255,255,255,0.07);
+      --green: #10b981; --green-l: #34d399; --green-d: #059669;
+      --purple: #8b5cf6; --purple-l: #a78bfa;
+      --gold: #f59e0b; --gold-l: #fbbf24;
+      --blue-l: #60a5fa; --cyan: #06b6d4;
+      --text: #f0eff8; --muted: #7e7ea8; --dim: #555575;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 3px; }
+
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(7,7,15,.93); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); padding: 0 28px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 800; text-decoration: none; background: linear-gradient(135deg, var(--purple-l), var(--blue-l), var(--gold-l)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .nav-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-back:hover { color: var(--green-l); }
+
+    .hero { position: relative; padding: 80px 24px 70px; text-align: center; overflow: hidden; }
+    .hbg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(16,185,129,.2) 0%, transparent 70%), radial-gradient(ellipse 40% 35% at 15% 80%, rgba(6,182,212,.07) 0%, transparent 60%); }
+    .hgrid { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(rgba(16,185,129,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,.04) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 68%); }
+    .hinner { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; }
+    .hbadge { display: inline-flex; align-items: center; gap: 8px; background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.25); border-radius: 100px; padding: 6px 18px; font-size: 11.5px; font-weight: 700; color: var(--green-l); text-transform: uppercase; letter-spacing: .09em; margin-bottom: 24px; }
+    .bdot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .htitle { font-family: 'Space Grotesk', sans-serif; font-size: clamp(34px, 5.5vw, 62px); font-weight: 800; line-height: 1.1; letter-spacing: -.035em; margin-bottom: 22px; }
+    .grad-green { background: linear-gradient(130deg, var(--green-l) 0%, var(--cyan) 60%, var(--blue-l) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hdesc { font-size: 16px; color: var(--muted); line-height: 1.75; max-width: 560px; margin: 0 auto 40px; }
+
+    .stats { display: flex; justify-content: center; gap: 44px; flex-wrap: wrap; margin-bottom: 48px; }
+    .stat .v { font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 800; background: linear-gradient(135deg, var(--green-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat .l { font-size: 12px; color: var(--muted); margin-top: 3px; text-align: center; }
+
+    .cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .btn-main { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, var(--green), var(--green-d)); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; padding: 18px 48px; border-radius: 16px; text-decoration: none; box-shadow: 0 6px 32px rgba(16,185,129,.45); transition: all .28s; letter-spacing: -.01em; animation: pulse 2.2s ease-in-out infinite; }
+    .btn-main:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(16,185,129,.65); }
+    @keyframes pulse { 0%,100%{box-shadow: 0 6px 32px rgba(16,185,129,.45)} 50%{box-shadow: 0 6px 48px rgba(16,185,129,.75)} }
+    .sub-note { font-size: 13px; color: var(--dim); }
+
+    /* BOOK PREVIEW */
+    .book-section { max-width: 1000px; margin: 0 auto; padding: 64px 24px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .book-visual { display: flex; justify-content: center; }
+    .book-cover {
+      width: 220px; height: 300px; background: linear-gradient(135deg, #0c2618, #1a3a2a);
+      border-radius: 12px; border: 1px solid rgba(16,185,129,.3);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+      box-shadow: 8px 8px 32px rgba(0,0,0,.6), 0 0 60px rgba(16,185,129,.12);
+      position: relative; overflow: hidden;
+    }
+    .book-cover::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 20%, rgba(16,185,129,.2) 0%, transparent 60%); }
+    .book-emoji { font-size: 64px; position: relative; z-index: 1; animation: float 3.5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .book-label { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 800; color: var(--green-l); text-align: center; position: relative; z-index: 1; letter-spacing: -.01em; padding: 0 16px; line-height: 1.4; }
+    .book-sub { font-size: 11px; color: var(--muted); position: relative; z-index: 1; }
+
+    .book-info { display: flex; flex-direction: column; gap: 24px; }
+    .bi-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -.025em; line-height: 1.25; }
+    .bi-desc { font-size: 15px; color: var(--muted); line-height: 1.75; }
+    .bi-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .bi-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--muted); }
+    .bi-list li::before { content: '✓'; color: var(--green-l); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+
+    .features-section { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+    .sec-eyebrow { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--green-l); margin-bottom: 10px; text-align: center; }
+    .sec-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 3vw, 32px); font-weight: 800; letter-spacing: -.025em; text-align: center; margin-bottom: 48px; }
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 24px; transition: all .3s; }
+    .feat-card:hover { border-color: rgba(16,185,129,.3); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.4); }
+    .feat-icon { font-size: 36px; margin-bottom: 14px; }
+    .feat-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feat-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+    .price-section { max-width: 520px; margin: 0 auto; padding: 0 24px 80px; text-align: center; }
+    .price-card { background: var(--bg-card); border: 1px solid rgba(16,185,129,.25); border-radius: 24px; padding: 40px 36px; position: relative; overflow: hidden; }
+    .price-card::before { content: ''; position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,.12) 0%, transparent 65%); }
+    .price-content { position: relative; z-index: 1; }
+    .price-badge { display: inline-block; background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 20px; }
+    .price-main { font-family: 'Space Grotesk', sans-serif; font-size: 56px; font-weight: 800; line-height: 1; margin-bottom: 6px; background: linear-gradient(135deg, var(--green-l), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .price-original { font-size: 18px; color: var(--dim); text-decoration: line-through; margin-bottom: 6px; }
+    .price-save { font-size: 13px; font-weight: 700; color: var(--green-l); margin-bottom: 28px; }
+    .price-list { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .price-list li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+    .price-list li::before { content: '✓'; color: var(--green-l); font-weight: 800; flex-shrink: 0; }
+    .btn-price { display: block; width: 100%; background: linear-gradient(135deg, var(--green), var(--green-d)); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 800; padding: 17px; border-radius: 14px; text-decoration: none; text-align: center; box-shadow: 0 6px 28px rgba(16,185,129,.45); transition: all .28s; }
+    .btn-price:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(16,185,129,.65); }
+    .guarantee { font-size: 12px; color: var(--dim); margin-top: 14px; }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    footer { background: var(--bg-1); border-top: 1px solid var(--border); padding: 36px 24px 24px; text-align: center; }
+    .flogo { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; background: linear-gradient(135deg, var(--purple-l), var(--blue-l), var(--gold-l)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+    .fcopy { font-size: 12px; color: var(--dim); }
+
+    @media (max-width: 820px) {
+      .book-section { grid-template-columns: 1fr; gap: 40px; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .stats { gap: 24px; }
+      .btn-main { font-size: 16px; padding: 16px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../store.html" class="nav-logo">&#9889; HD AI Store</a>
+  <a href="../store.html" class="nav-back">&#8592; Quay l&#7841;i Store</a>
+</nav>
+
+<section class="hero">
+  <div class="hbg"></div>
+  <div class="hgrid"></div>
+  <div class="hinner">
+    <div class="hbadge"><span class="bdot"></span> &#128218; Best Seller 2026</div>
+    <h1 class="htitle">
+      S&#225;ch<br>
+      <span class="grad-green">M&#7853;t M&#227; T&#7921; Do</span>
+    </h1>
+    <p class="hdesc">
+      B&#237; quy&#7871;t ki&#7871;m ti&#7873;n v&#7899;i AI &#8212; 100+ Prompt ChatGPT &#273;&#7881;nh cao, 47 m&#244; h&#236;nh th&#7921;c chi&#7871;n, script b&#225;n h&#224;ng t&#7921; &#273;&#7897;ng. T&#7843;i ngay, d&#249;ng ngay!
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="v">2.100+</div><div class="l">L&#432;&#7907;t t&#7843;i</div></div>
+      <div class="stat"><div class="v">5.0&#9733;</div><div class="l">&#272;&#225;nh gi&#225;</div></div>
+      <div class="stat"><div class="v">PDF</div><div class="l">T&#7843;i ngay</div></div>
+      <div class="stat"><div class="v">100+</div><div class="l">Prompt AI</div></div>
+    </div>
+    <div class="cta-wrap">
+      <a id="cta-main" href="https://phongmenlyai.com/?ref=hoangduong56879" target="_blank" rel="noopener noreferrer" class="btn-main">
+        &#128229; T&#7843;i S&#225;ch Ngay
+      </a>
+      <div class="sub-note">&#9889; T&#7843;i ngay sau thanh to&#225;n &#183; File PDF &#273;&#7865;p, d&#249;ng ngay</div>
+    </div>
+  </div>
+</section>
+
+<section class="book-section">
+  <div class="book-visual reveal">
+    <div class="book-cover">
+      <div class="book-emoji">&#128218;</div>
+      <div class="book-label">M&#7853;t M&#227; T&#7921; Do</div>
+      <div class="book-sub">by HD AI Store &#183; 2026</div>
+    </div>
+  </div>
+  <div class="book-info reveal">
+    <div class="bi-title">Cu&#7889;n s&#225;ch thay &#273;&#7893;i c&#225;ch b&#7841;n ki&#7871;m ti&#7873;n v&#7899;i AI</div>
+    <div class="bi-desc">Kh&#244;ng ph&#7843;i l&#253; thuy&#7871;t. Kh&#244;ng ph&#7843;i h&#7913;a h&#7865;n. &#272;&#226;y l&#224; cu&#7889;n s&#225;ch th&#7921;c chi&#7871;n 100% &#8212; &#273;&#432;&#7907;c &#250;c k&#7871;t t&#7915; kinh nghi&#7879;m th&#7921;c t&#7871; c&#7911;a ng&#432;&#7901;i &#273;&#227; ki&#7871;m ti&#7873;n v&#7899;i AI t&#7915; n&#259;m 2022.</div>
+    <ul class="bi-list">
+      <li>100+ Prompt ChatGPT &#273;&#7881;nh cao cho content &amp; kinh doanh</li>
+      <li>47 m&#244; h&#236;nh ki&#7871;m ti&#7873;n v&#7899;i AI &#8212; th&#7921;c chi&#7871;n 100%</li>
+      <li>Script b&#225;n h&#224;ng t&#7921; &#273;&#7897;ng qua Messenger, Zalo, Email</li>
+      <li>B&#237; quy&#7871;t t&#7841;o thu nh&#7853;p th&#7909; &#273;&#7897;ng t&#7915; AI</li>
+      <li>PDF &#273;&#7865;p, tr&#236;nh b&#224;y chuy&#234;n nghi&#7879;p &#8212; t&#7843;i ngay, d&#249;ng ngay</li>
+    </ul>
+    <a href="https://phongmenlyai.com/?ref=hoangduong56879" target="_blank" rel="noopener noreferrer" class="btn-main" style="font-size:16px;padding:15px 36px;animation:none;">&#128229; T&#7843;i S&#225;ch Ngay</a>
+  </div>
+</section>
+
+<section class="features-section">
+  <span class="sec-eyebrow reveal">&#9889; N&#7897;i dung s&#225;ch</span>
+  <h2 class="sec-title reveal">B&#7841;n nh&#7853;n &#273;&#432;&#7907;c g&#236; trong cu&#7889;n s&#225;ch n&#224;y?</h2>
+  <div class="feat-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#129302;</div>
+      <div class="feat-title">100+ Prompt AI c&#7921;c &#273;&#7881;nh</div>
+      <div class="feat-desc">Prompt vi&#7871;t content, ch&#7841;y qu&#7843;ng c&#225;o, t&#7841;o s&#7843;n ph&#7849;m s&#7889;, b&#225;n h&#224;ng t&#7921; &#273;&#7897;ng &#8212; copy &amp; paste l&#224; d&#249;ng ngay.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#128176;</div>
+      <div class="feat-title">47 M&#244; h&#236;nh ki&#7871;m ti&#7873;n</div>
+      <div class="feat-desc">T&#7915; freelance AI, b&#225;n s&#7843;n ph&#7849;m s&#7889; &#273;&#7871;n affiliate marketing v&#7899;i AI &#8212; t&#7845;t c&#7843; &#273;&#432;&#7907;c gi&#7843;i th&#237;ch chi ti&#7871;t t&#7915;ng b&#432;&#7899;c.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#128172;</div>
+      <div class="feat-title">Script b&#225;n h&#224;ng s&#7861;n</div>
+      <div class="feat-desc">K&#7883;ch b&#7843;n chat, email, tin nh&#7855;n Zalo &#8212; copy &amp; paste l&#224; ra &#273;&#417;n ngay m&#224; kh&#244;ng c&#7847;n suy ngh&#297; nhi&#7873;u.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#9889;</div>
+      <div class="feat-title">Thu nh&#7853;p th&#7909; &#273;&#7897;ng 24/7</div>
+      <div class="feat-desc">Thi&#7871;t l&#7853;p h&#7879; th&#7889;ng b&#225;n t&#7921; &#273;&#7897;ng &#8212; ng&#7911; m&#224; v&#7851;n c&#243; &#273;&#417;n, kh&#244;ng c&#7847;n online li&#234;n t&#7909;c.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#127891;</div>
+      <div class="feat-title">Ngu&#7891;n t&#224;i nguy&#234;n AI mi&#7877;n ph&#237;</div>
+      <div class="feat-desc">Danh s&#225;ch c&#225;c tool AI mi&#7877;n ph&#237; t&#7889;t nh&#7845;t 2026 &#8212; ti&#7871;t ki&#7879;m h&#224;ng tri&#7879;u &#273;&#7891;ng chi ph&#237; ph&#7847;n m&#7873;m.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">&#128229;</div>
+      <div class="feat-title">T&#7843;i ngay &#8212; d&#249;ng ngay</div>
+      <div class="feat-desc">File PDF ch&#7845;t l&#432;&#7907;ng cao, tr&#236;nh b&#224;y &#273;&#7865;p, c&#243; th&#7875; &#273;&#7885;c tr&#234;n m&#7885;i thi&#7871;t b&#7883; &#8212; nh&#7853;n ngay sau khi thanh to&#225;n.</div>
+    </div>
+  </div>
+</section>
+
+<section class="price-section">
+  <div class="price-card reveal">
+    <div class="price-content">
+      <div class="price-badge">&#128218; BEST SELLER 2026</div>
+      <div style="font-size:52px;margin:8px 0 12px;">&#128218;</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;">S&#225;ch M&#7853;t M&#227; T&#7921; Do</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px;">B&#237; quy&#7871;t ki&#7871;m ti&#7873;n v&#7899;i AI &#8212; 100+ Prompt ChatGPT &#273;&#7881;nh cao, 47 m&#244; h&#236;nh th&#7921;c chi&#7871;n v&#224; script b&#225;n h&#224;ng t&#7921; &#273;&#7897;ng.</div>
+      <ul class="price-list">
+        <li>File PDF &#273;&#7865;p, tr&#236;nh b&#224;y chuy&#234;n nghi&#7879;p</li>
+        <li>100+ Prompt ChatGPT th&#7921;c chi&#7871;n</li>
+        <li>47 m&#244; h&#236;nh ki&#7871;m ti&#7873;n v&#7899;i AI</li>
+        <li>Script b&#225;n h&#224;ng sao ch&#233;p ngay</li>
+        <li>Ngu&#7891;n t&#224;i nguy&#234;n AI mi&#7877;n ph&#237;</li>
+        <li>C&#7853;p nh&#7853;t mi&#7877;n ph&#237; phi&#234;n b&#7843;n m&#7899;i</li>
+      </ul>
+      <a id="cta-price" href="https://phongmenlyai.com/?ref=hoangduong56879" target="_blank" rel="noopener noreferrer" class="btn-price">&#128229; T&#7843;i S&#225;ch Ngay</a>
+      <div class="guarantee">&#9889; Nh&#7853;n file PDF ngay sau khi thanh to&#225;n &#183; Kh&#244;ng c&#7847;n ch&#7901;</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">&#9889; HD AI Store</div>
+  <div class="fcopy">&#169; 2026 HD AI Store &#183; Ho&#224;ng D&#432;&#417;ng &#183; Zalo: 0979812338</div>
+</footer>
+
+<script>
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+</script>
+</body>
+</html>

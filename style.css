@@ -130,6 +130,19 @@ nav {
 }
 .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,180,41,0.35); }
 
+/* === BANNER COLLAGE === */
+#banner-collage {
+  width: 100%;
+  background: var(--bg-0);
+}
+#banner-collage img {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  height: auto;
+}
+
 /* === HERO === */
 #hero {
   min-height: 100vh;
@@ -840,7 +853,7 @@ footer {
   background: #fff;
   border-radius: 16px;
   padding: 16px;
-  width: 180px; height: 180px;
+  width: 260px; height: 260px;
   margin: 0 auto 20px;
   display: flex; align-items: center; justify-content: center;
 }
